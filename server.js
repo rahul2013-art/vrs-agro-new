@@ -1,4 +1,5 @@
 require("dotenv").config();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -15,7 +16,13 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, {
+    ssl: true,
+    retryWrites: true
+})
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log("MongoDB Connection Error:", err));
+
 
 console.log("MongoDB Connected");
 
