@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VRS Agro service</title>
+
+<style>
+
+/* Background and Page Style */
+body {
+    margin: 0;
+    font-family: Arial;
+    background-image: url('https://images.pexels.com/photos/2132171/pexels-photo-2132171.jpeg');
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+}
+
+/* Header */
+.header {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Product Section */
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.card {
+    background: rgba(0,0,0,0.75);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px;
+    width: 200px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+button {
+    padding: 10px;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Buttons */
+.orderbtn {
+    background: green;
+    color: white;
+}
+
+.callbtn {
+    background: orange;
+    color: black;
+}
+
+/* Contact Section */
+.contact {
+    background: rgba(0,0,0,0.8);
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Popup Form */
+#popup {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 35%;
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px;
+}
+p{
+    color:orange;
+}
+
+.close {
+    background: red;
+    color: white;
+}
+
+@media(max-width:600px){
+    #popup{
+        left:10%;
+        width:80%;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <h1>🌿 VRS Agro service </h1>
+    <h2>We have all kind of seeds and pesticides</h2>
+    <p>📍Mailaduthurai bypass,Vadakkumangudi </p>
+</div>
+
+
+<div class="products">
+
+<div class="card">
+    <h3>Coragen</h3>
+    <p>Effective against chewing pests</p>
+    <button class="orderbtn" onclick="openForm('Coragen')">Order Now</button>
+</div>
+
+<div class="card">
+    <h3>Jashn super</h3>
+    <p>Kills insects on lower and upper surface of leaves </p>
+    <button class="orderbtn" onclick="openForm('Herbicide Pro')">Order Now</button>
+</div>
+
+<div class="card">
+    <h3>Karate</h3>
+    <p>Control against a wide range of pests</p>
+    <button class="orderbtn" onclick="openForm('Fungicide Plus')">Order Now</button>
+</div>
+
+<div class="card">
+    <h3>Asataf</h3>
+    <p>Advanced pest solution control pest</p>
+    <button class="orderbtn" onclick="openForm('Pest Control X')">Order Now</button>
+</div>
+
+</div>
+
+
+<div class="contact">
+    <h2>Contact Us</h2>
+    <p>Reach us instantly</p>
+
+    <!-- Calling Option -->
+    <a href="tel:+917867061884">
+        <button class="callbtn">📞 Call Now</button>
+    </a>
+
+    <!-- SMS Option -->
+    <a href="sms:+917867061884?body=Hello, I want to enquire about pesticides">
+        <button class="orderbtn">📩 Send SMS</button>
+    </a>
+
+    <!-- WhatsApp Option -->
+    <a href="https://wa.me/917867061884?text=Hello%20I%20need%20pesticide%20details">
+        <button class="orderbtn">💬 WhatsApp Chat</button>
+    </a>
+
+    <!-- Email Option -->
+    <a href="mailto:janagar0101@gmail.com?subject=Pesticide Enquiry">
+        <button class="orderbtn">📧 Send Email</button>
+    </a>
+
+    <p>Phone: +91 7867061884</p>
+    <p>Email: janagar0101@gmail.com</p>
+</div>
+
+
+
+<!-- Popup Form -->
+<div id="popup">
+    <h3>Order Enquiry</h3>
+
+    <input type="text" id="name" placeholder="Your Name"><br>
+
+    <input type="text" id="product" placeholder="Product"><br>
+
+    <input type="tel" id="phone" placeholder="Phone Number"><br>
+
+    <button onclick="submitForm()" class="orderbtn">Submit</button>
+
+    <button onclick="closeForm()" class="close">Close</button>
+</div>
+
+
+<script>
+
+function openForm(productName) {
+    document.getElementById("popup").style.display = "block";
+    document.getElementById("product").value = productName;
+}
+
+function closeForm() {
+    document.getElementById("popup").style.display = "none";
+}
+
+async function submitForm() {
+
+    var name = document.getElementById("name").value;
+    var product = document.getElementById("product").value;
+    var phone = document.getElementById("phone").value;
+
+    if(name == "" || phone == ""){
+        alert("Please fill all details");
+        return;
+    }
+
+    const data = {
+        name: name,
+        product: product,
+        phone: phone
+    };
+
+    const response = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    alert(result.message);
+
+    closeForm();
+
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+}
+
+</script>
+
+
+</body>
+</html>
