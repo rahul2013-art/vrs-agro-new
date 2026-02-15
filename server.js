@@ -21,7 +21,6 @@ mongoose.connect(process.env.MONGO_URL)
 
 
 
-console.log("MongoDB Connected");
 
 
 // TWILIO CONFIGURATION
@@ -65,7 +64,7 @@ app.post("/api/enquiry", async (req, res) => {
         // ---- AUTOMATED WHATSAPP ----
         client.messages.create({
             body: `Hi ${name}, thanks for contacting VRS Agro Service about ${product}. Our team will reach you shortly.`,
-            from: "whatsapp:+141552388866",
+            from: "whatsapp:+911552388866",
             to: "whatsapp:" + phone
         })
         .then(msg => console.log("WhatsApp Sent:", msg.sid))
